@@ -6,9 +6,10 @@ COMMIT=$3
 CURL_OPTS=${4:-}
 
 echo "Triggering Build for [${PROJECT}] Pull-Request #${PULL_REQUEST} (commit: ${COMMIT})"
-cat << __EOF__ | curl ${CURL_OPTS} --data - -H 'X-GitHub-Event: pull_request' -H 'Content-Type: application/json' "https://readthedocs.org/api/v2/webhook/github/${PROJECT}/"
+cat << __EOF__ | curl ${CURL_OPTS} --data @- -H 'X-GitHub-Event: pull_request' -H 'Content-Type: application/json' "https://readthedocs.org/api/v2/webhook/github/${PROJECT}/"
 {
   "action": "opened",
+  "number": ${PULL_REQUEST},
   "pull_request": {
     "number": ${PULL_REQUEST},
     "head": {
